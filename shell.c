@@ -238,7 +238,7 @@ int cmpstrings(char *firststr, char *secondstr)
 char handle_first
 (struct spec_sym_arr *struc_spec, int *check_end, int *check_f_cur)
 {
-  char tmp;
+  int tmp;
   tmp=getchar();
   if ((*check_f_cur==wrt_to_beg) && (tmp=='>')) {
     *check_f_cur=wrt_to_end;
@@ -270,7 +270,7 @@ char handle_first
   return tmp;
 }
 
-void handle_last(char tmp, int *check_end, int check_q, int *check_f_cur)
+void handle_last(int tmp, int *check_end, int check_q, int *check_f_cur)
 {
   if (tmp==EOF) {
     *check_end=quit;
@@ -289,18 +289,18 @@ void handle_last(char tmp, int *check_end, int check_q, int *check_f_cur)
   }
 }
 
-int check_not_end(char tmp)
+int check_not_end(int tmp)
 {
   return ((tmp!=EOF) && (tmp!='\n'));
 }
 
-int check_in_quot(char tmp, int check_q)
+int check_in_quot(int tmp, int check_q)
 {
   return (((tmp!='<') && (tmp!='>') && (tmp!=' ')) || (check_q));
 }
 
 struct list_letters **
-add_let(struct list_letters **p, char *tmp)
+add_let(struct list_letters **p, int *tmp)
 {
   (*p)=malloc(sizeof(**p));
   (*p)->letter=*tmp;
@@ -310,7 +310,7 @@ add_let(struct list_letters **p, char *tmp)
   return p;
 }
 
-char handle_middle(struct spec_sym_arr *struc_spec, int *check_q, char tmp)
+char handle_middle(struct spec_sym_arr *struc_spec, int *check_q, int tmp)
 {
   if (tmp=='"') {
     *check_q=!(*check_q);
@@ -330,7 +330,7 @@ char handle_middle(struct spec_sym_arr *struc_spec, int *check_q, char tmp)
 struct list_letters *
 readword(struct spec_sym_arr *struc_spec, int *check_end, int *check_f_cur)
 {
-  char tmp;
+  int tmp;
   int check_q=0;
   struct list_letters *first=NULL,**p;
   *check_end=not_end;
